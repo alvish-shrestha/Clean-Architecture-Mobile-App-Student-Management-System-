@@ -38,6 +38,10 @@ class BatchHiveModel extends Equatable {
         .toList();
   }
 
+  static List<BatchEntity> toEntityList(List<BatchHiveModel> entityList) {
+    return entityList.map((data) => data.toEntity()).toList();
+  }
+
   @override
   List<Object?> get props => [batchId, batchName];
 }
