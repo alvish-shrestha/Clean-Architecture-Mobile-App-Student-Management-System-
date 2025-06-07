@@ -5,19 +5,17 @@ import 'package:student_management/features/batch/domain/entity/batch_entity.dar
 
 class BatchLocalDataSource implements IBatchDataSource {
   final HiveService hiveService;
-  final BatchHiveModel batchHiveModel;
 
-  BatchLocalDataSource({
-    required this.batchHiveModel,
-    required this.hiveService,
-  });
+  BatchLocalDataSource({required this.hiveService});
 
   @override
   Future<void> createBatch(BatchEntity batch) async {
     try {
-      await hiveService.addBatch(BatchHiveModel.fromEntity(batch));
+      // Convert BatchEntity to BatchHiveModel
+      final batchHiveModel = BatchHiveModel.fromEntity(batch);
+      await hiveService.addBatch(batchHiveModel);
     } catch (e) {
-      throw Exception('Failed to add batch: $e');
+      throw Exception(e);
     }
   }
 
@@ -26,17 +24,18 @@ class BatchLocalDataSource implements IBatchDataSource {
     try {
       await hiveService.deleteBatch(id);
     } catch (e) {
-      throw Exception('Failed to delete batch $e');
+      throw Exception(e);
     }
   }
 
   @override
-  Future<List<BatchEntity>> getBatches() async {
+  Future<List<BatchEntity>> getBatches() {
     try {
-      final batches = await hiveService.getAllBatches();
-      return BatchHiveModel.toEntityList(batches);
+      return hiveService.getAllBatches().then((value) {
+        return value.map((e) => e.toEntity()).toList();
+      });
     } catch (e) {
-      throw Exception('Failed to get batch $e');
+      throw Exception(e);
     }
   }
 }

@@ -6,7 +6,7 @@ import 'package:student_management/features/batch/data/model/batch_hive_model.da
 import 'package:student_management/features/course/data/model/course_hive_model.dart';
 
 class HiveService {
-  Future<void> init() async {
+  static Future<void> init() async {
     // initialize the db
     var directory = await getApplicationDocumentsDirectory();
     var path = '${directory.path}student_management.db';

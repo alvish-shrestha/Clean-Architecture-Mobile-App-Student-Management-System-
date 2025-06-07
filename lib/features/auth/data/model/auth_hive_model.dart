@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 part 'auth_hive_model.g.dart';
 
-@HiveType(typeId: HiveTableConstant.courseTableId)
+@HiveType(typeId: HiveTableConstant.studentTableId)
 class AuthHiveModel extends Equatable {
   @HiveField(0)
   final String? studentId;
