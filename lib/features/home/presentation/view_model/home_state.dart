@@ -21,7 +21,7 @@ class HomeState {
       views: [
         DashboardView(),
         BlocProvider(
-          create: (context) => CourseViewModel(),
+          create: (context) => serviceLocator<CourseViewModel>(),
           child: CourseView(),
         ),
         BlocProvider(
