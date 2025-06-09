@@ -1,5 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:student_management/core/network/hive_service.dart';
+import 'package:student_management/features/auth/data/data_source/local_datasource/student_local_datasource.dart';
+import 'package:student_management/features/auth/data/repository/local_repository/student_local_repository.dart';
+import 'package:student_management/features/auth/domain/use_case/student_get_current__usecase.dart';
+import 'package:student_management/features/auth/domain/use_case/student_image_upload_usecase.dart';
+import 'package:student_management/features/auth/domain/use_case/student_login_usecase.dart';
+import 'package:student_management/features/auth/domain/use_case/student_register_usecase.dart';
 import 'package:student_management/features/auth/presentation/view_model/login_view_model/login_view_model.dart';
 import 'package:student_management/features/auth/presentation/view_model/register_view_model/register_view_model.dart';
 import 'package:student_management/features/batch/data/data_source/local_datasource/batch_local_data_source.dart';
@@ -107,12 +113,59 @@ Future _initBatchModule() async {
 }
 
 Future _initHomeModule() async {
-  serviceLocator.registerLazySingleton(() => HomeViewModel());
+  serviceLocator.registerFactory(
+    () => HomeViewModel(loginViewModel: serviceLocator<LoginViewModel>()),
+  );
 }
 
 Future _initAuthModule() async {
-  serviceLocator.registerFactory(() => LoginViewModel());
-  serviceLocator.registerFactory(() => RegisterViewModel());
+  serviceLocator.registerFactory(
+    () => StudentLocalDatasource(hiveService: serviceLocator<HiveService>()),
+  );
+
+  serviceLocator.registerFactory(
+    () => StudentLocalRepository(
+      studentLocalDatasource: serviceLocator<StudentLocalDatasource>(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => StudentLoginUsecase(
+      studentRepository: serviceLocator<StudentLocalRepository>(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => StudentRegisterUsecase(
+      studentRepository: serviceLocator<StudentLocalRepository>(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => UploadImageUsecase(
+      studentRepository: serviceLocator<StudentLocalRepository>(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => StudentGetCurrentUsecase(
+      studentRepository: serviceLocator<StudentLocalRepository>(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => RegisterViewModel(
+      serviceLocator<BatchViewModel>(),
+      serviceLocator<CourseViewModel>(),
+      serviceLocator<StudentRegisterUsecase>(),
+      serviceLocator<UploadImageUsecase>(),
+    ),
+  );
+
+  // Register LoginViewModel WITHOUT HomeViewModel to avoid circular dependency
+  serviceLocator.registerFactory(
+    () => LoginViewModel(serviceLocator<StudentLoginUsecase>()),
+  );
 }
 
 Future _initSplashModule() async {

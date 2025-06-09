@@ -1,49 +1,55 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_hive_model.dart';
+part of 'student_hive_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AuthHiveModelAdapter extends TypeAdapter<AuthHiveModel> {
+class StudentHiveModelAdapter extends TypeAdapter<StudentHiveModel> {
   @override
   final int typeId = 0;
 
   @override
-  AuthHiveModel read(BinaryReader reader) {
+  StudentHiveModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AuthHiveModel(
+    return StudentHiveModel(
       studentId: fields[0] as String?,
-      firstName: fields[1] as String,
-      lastName: fields[2] as String,
-      batch: fields[3] as BatchHiveModel,
-      courses: (fields[4] as List).cast<CourseHiveModel>(),
-      username: fields[5] as String,
-      password: fields[6] as String,
+      fName: fields[1] as String,
+      lName: fields[2] as String,
+      image: fields[3] as String?,
+      phone: fields[4] as String,
+      batch: fields[5] as BatchHiveModel,
+      courses: (fields[6] as List).cast<CourseHiveModel>(),
+      username: fields[7] as String,
+      password: fields[8] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, AuthHiveModel obj) {
+  void write(BinaryWriter writer, StudentHiveModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.studentId)
       ..writeByte(1)
-      ..write(obj.firstName)
+      ..write(obj.fName)
       ..writeByte(2)
-      ..write(obj.lastName)
+      ..write(obj.lName)
       ..writeByte(3)
-      ..write(obj.batch)
+      ..write(obj.image)
       ..writeByte(4)
-      ..write(obj.courses)
+      ..write(obj.phone)
       ..writeByte(5)
-      ..write(obj.username)
+      ..write(obj.batch)
       ..writeByte(6)
+      ..write(obj.courses)
+      ..writeByte(7)
+      ..write(obj.username)
+      ..writeByte(8)
       ..write(obj.password);
   }
 
@@ -53,7 +59,7 @@ class AuthHiveModelAdapter extends TypeAdapter<AuthHiveModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AuthHiveModelAdapter &&
+      other is StudentHiveModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
