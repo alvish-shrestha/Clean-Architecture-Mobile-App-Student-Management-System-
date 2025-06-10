@@ -12,6 +12,7 @@ import 'package:student_management/features/course/domain/entity/course_entity.d
 import 'package:student_management/features/course/presentation/view_model/course_state.dart';
 import 'package:student_management/features/course/presentation/view_model/course_view_model.dart';
 
+// ignore: must_be_immutable
 class RegisterView extends StatelessWidget {
   RegisterView({super.key});
 
